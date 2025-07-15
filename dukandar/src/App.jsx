@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './components/Home'
@@ -9,35 +9,42 @@ import LoginPage from './components/LoginPage'
 import Signup from './components/Signup'
 import Dashboard from './components/Dashboard'
 import "./App.css"
-import AuthProvider from './AuthProvider'
-
+import Sidebar from './components/Sidebar'
 import {BrowserRouter , Route ,Routes} from "react-router-dom"
+import { AuthContext } from './AuthProvider'
+import PrivateRoute from './components/PrivateRoute'
+import PublicRoute from './components/PublicRoute'
+
 
 const App = () => {
+  const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext)
   return (
     <>
-      <AuthProvider>
         <BrowserRouter>
-        <div className="d-flex flex-column min-vh-100">
           <Header />
-          <main className="flex-grow-1 container p-4">
-            <Routes> 
-            <Route path='/' element={<Home />} />
-            <Route path='/addshop' element={<AddShop />} />
-            <Route path="/shop/:id" element={<ShopDetail />} />
-            <Route path="/edit-shop/:id" element={<EditShop />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-
-            {/* <About /> */}
-            {/* Add more components here */}
-            </Routes>
-          </main>
+          <div className="container-fluid">
+            <div className="row">
+              {isLoggedIn && (
+                <div className="col-3">
+                  <Sidebar />
+                </div>
+              )}
+              <div className={isLoggedIn ? 'col-9' : 'col-12'}>
+                <br />
+                <Routes>
+                  <Route path='/' element={<PrivateRoute><Home /></PrivateRoute>} />
+                  <Route path='/addshop' element={<PrivateRoute><AddShop /></PrivateRoute>} />
+                  <Route path='/shop/:id' element={<PrivateRoute><ShopDetail /></PrivateRoute>} />
+                  <Route path='/edit-shop/:id' element={<PrivateRoute><EditShop /></PrivateRoute>} />
+                  <Route path='/login' element={<PublicRoute><LoginPage /></PublicRoute>} />
+                  <Route path='/signup' element={<PublicRoute><Signup /></PublicRoute>} />
+                  <Route path='/dashboard' element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+                </Routes>
+              </div>
+            </div>
+          </div>
           <Footer />
-        </div>
         </BrowserRouter>
-      </AuthProvider>
     </>
   )
 }

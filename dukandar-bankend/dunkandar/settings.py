@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_simplejwt',
     'shops',
-    'users'
+    'users',
+    'items'
 ]
 
 MIDDLEWARE = [

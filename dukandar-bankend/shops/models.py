@@ -3,6 +3,8 @@ from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
 from users.models import TimeStampMixin
+from django.db.models import Max
+
 # Create your models here.
 class Shop(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
@@ -51,3 +53,36 @@ class ShopUser(TimeStampMixin):
         return self.shop.name + " " + self.user.name
 
     is_archived = models.BooleanField(default=False)
+    
+
+class Category(TimeStampMixin):
+    name = models.CharField(max_length=150, unique=True)
+    code = models.CharField(max_length=255, null=True, blank=True, )
+    is_active = models.BooleanField(default=False)
+    is_archived = models.BooleanField(default=False)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    order = models.IntegerField(default=1)
+
+    def save(self, *args, **kwargs):
+        if not self.pk and (self.order is None or self.order == 1):
+            max_order = Category.objects.aggregate(Max('order'))['order__max'] or 0
+            self.order = max_order + 1
+        super().save(*args, **kwargs)
+        
+    class Meta:
+        ordering = ("order",)
+        
+    def __str__(self):
+        return self.name
+      
+class Company(TimeStampMixin):
+    name = models.CharField(max_length=150, unique=True)
+    code = models.CharField(max_length=255, null=True, blank=True )
+    retailer_name = models.CharField(max_length=150)
+    retailer_email = models.CharField(max_length=255, null=True, blank=True)
+    retailer_phone = models.CharField(max_length=255, default=0, blank=True)
+    is_active = models.BooleanField(default=False)
+    is_archived = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name

@@ -48,17 +48,16 @@ const Signup = () => {
   }, [success]);
   return (
     <>
-    <br/>
         <div className="row justify-content-center">
-        <div className="col-md-7 bg-light-dark p-5 rounded">
-        <img
+        <div className="col-md-3 bg-light-dark p-5 rounded">
+        {/* <img
             src={registerImg}
             alt="Register Visual"
             className="img-fluid h-100 w-100"
             style={{ objectFit: 'cover' }}
-            />
+            /> */}
         </div>
-          <div className="col-md-5 bg-light-dark p-5 rounded">
+          <div className="col-md-6 bg-light-dark p-5 rounded">
             <h3 className='text-center mb-4'>Create an Account</h3>
             <form onSubmit={handleRegisteration}>
             <div className="mb-3">
@@ -92,6 +91,8 @@ const Signup = () => {
               {/* <button type='submit' className='btn btn-info d-block mx-auto'>Register</button> */}
             </form>
 
+          </div>
+          <div className="col-md-3 bg-light-dark p-5 rounded">
           </div>
         </div>
     </>

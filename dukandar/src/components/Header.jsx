@@ -11,6 +11,7 @@ const Header = () => {
     
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
+    localStorage.removeItem('user')
     setIsLoggedIn(false)
     navigate('/login')
   }
@@ -25,32 +26,68 @@ const Header = () => {
             <div className="collapse navbar-collapse" id="navbarScroll">
             <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style={{ '--bs-scroll-height': '100px' }}>
                 <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to={'/'}>Home</Link>
+                {isLoggedIn && user?.is_shop_owner && (
+                    <Link className="nav-link active" aria-current="page" to={'/'}>Home</Link>
+                  )}
                 </li>
                 <li className="nav-item">
-                  {user.is_shop_owner && (
-                    <>
-                      <Link className="nav-link" aria-current="page" to={'/dashboard'}>Dashboard</Link>
-                    </>
-                  )
-                  }
-                </li>
-                {/* <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Link
-                </a>
-                <ul className="dropdown-menu">
-                    <li><a className="dropdown-item" href="#">Action</a></li>
-                    <li><a className="dropdown-item" href="#">Another action</a></li>
-                    <li><a className="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-                </li> */}
-            
+                  {isLoggedIn && user?.is_shop_owner && (
+                    <Link className="nav-link" aria-current="page" to="/dashboard">
+                      Dashboard
+                    </Link>
+                  )}
+                </li>            
             </ul>
             <div> {isLoggedIn ? (
               <>
-               <Link className="btn btn-success" to={'/'}>Home</Link> 
-               &nbsp;<button className="btn btn-danger" onClick={handleLogout}>Logout</button> 
+              <div className="dropdown d-flex ropdown-mb-custom">
+        <a
+          href="#"
+          className="d-flex align-items-center link-dark-custom text-decoration-none dropdown-toggle"
+          id="dropdownUser2"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <img
+            src="https://github.com/mdo.png"
+            alt=""
+            width="32"
+            height="32"
+            className="rounded-circle me-2"
+          />
+          <strong className='text-white'>{user?.first_name + ' ' + user?.last_name}</strong>
+        </a>
+        <ul
+          className="dropdown-menu text-small shadow dropdown-menu-mb-custom"
+          aria-labelledby="dropdownUser2"
+        >
+          <li>
+            <a className="dropdown-item" href="#">
+              New project...
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Settings
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Profile
+            </a>
+          </li>
+          <li>
+            <hr className="dropdown-divider" />
+          </li>
+          <li>
+            <a className="dropdown-item" onClick={handleLogout}>
+              Sign out
+            </a>
+          </li>
+        </ul>
+      </div>
+               {/* <Link className="btn btn-success" to={'/'}>Home</Link> 
+               &nbsp;<button className="btn btn-danger" onClick={handleLogout}>Logout</button>  */}
            
             </>
             ) : (

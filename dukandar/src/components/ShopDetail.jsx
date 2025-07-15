@@ -1,7 +1,7 @@
 // ShopDetail.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../AxiosInstance'
 
 const ShopDetail = () => {
   const { id } = useParams();
@@ -9,7 +9,7 @@ const ShopDetail = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/v1/shop/${id}`)
+    axiosInstance.get(`http://localhost:8000/api/v1/shop/${id}`)
       .then(res => {
         setShop(res.data);
       })
