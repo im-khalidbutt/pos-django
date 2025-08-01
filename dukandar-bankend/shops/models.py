@@ -76,12 +76,13 @@ class Category(TimeStampMixin):
         return self.name
       
 class Company(TimeStampMixin):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=150, unique=True)
     code = models.CharField(max_length=255, null=True, blank=True )
     retailer_name = models.CharField(max_length=150)
     retailer_email = models.CharField(max_length=255, null=True, blank=True)
     retailer_phone = models.CharField(max_length=255, default=0, blank=True)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_archived = models.BooleanField(default=False)
 
     def __str__(self):

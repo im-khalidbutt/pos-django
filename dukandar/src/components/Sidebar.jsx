@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Sidebar = () => {
   return (
@@ -6,17 +7,17 @@ const Sidebar = () => {
       className="flex-shrink-0 p-3 bg-light py-3 d-flex flex-column min-vh-100"
       style={{ width: "280px" }}
     >
-      <a
-        href="/"
+      <Link
+        to={'/'}
         className="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom"
       >
         <svg className="bi me-2" width="30" height="24">
           <use xlinkHref="#bootstrap"></use>
         </svg>
-        <span className="fs-5 fw-semibold">Collapsible</span>
-      </a>
+        <span className="fs-5 fw-semibold">Dukandar</span>
+      </Link>
       <ul className="list-unstyled ps-0">
-        <li className="mb-1">
+        {/* <li className="mb-1">
           <button
             className="btn btn-toggle align-items-center rounded collapsed"
             data-bs-toggle="collapse"
@@ -44,7 +45,7 @@ const Sidebar = () => {
               </li>
             </ul>
           </div>
-        </li>
+        </li> */}
         <li className="mb-1">
           <button
             className="btn btn-toggle align-items-center rounded collapsed"
@@ -108,6 +109,30 @@ const Sidebar = () => {
               <li>
                 <a href="#" className="link-dark rounded">
                   Returned
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li className="mb-1">
+          <button
+            className="btn btn-toggle align-items-center rounded collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#item-collapse"
+            aria-expanded="false"
+          >
+            Item
+          </button>
+          <div className="collapse" id="item-collapse">
+            <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li>
+                <Link to={'/add-item'} className="link-dark rounded">
+                  Add Item
+                </Link>
+              </li>
+              <li>
+                <a href="#" className="link-dark rounded">
+                  Item Category
                 </a>
               </li>
             </ul>

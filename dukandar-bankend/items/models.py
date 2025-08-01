@@ -31,7 +31,7 @@ class Item(TimeStampMixin):
     # parent = models.ForeignKey('self', blank=True, null=True, 
     #                            related_name='children', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    company = models.ForeignKey(Company, on_delete=models.DO_NOTHING,
+    company = models.ForeignKey(Company, on_delete=models.CASCADE,
                                 related_name="company_items",
                                 null=True, blank=True)
     item_category = models.ForeignKey(ItemCategory,

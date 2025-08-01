@@ -26,7 +26,7 @@ const Header = () => {
             <div className="collapse navbar-collapse" id="navbarScroll">
             <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style={{ '--bs-scroll-height': '100px' }}>
                 <li className="nav-item">
-                {isLoggedIn && user?.is_shop_owner && (
+                {isLoggedIn && (
                     <Link className="nav-link active" aria-current="page" to={'/'}>Home</Link>
                   )}
                 </li>

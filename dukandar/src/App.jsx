@@ -14,7 +14,7 @@ import {BrowserRouter , Route ,Routes} from "react-router-dom"
 import { AuthContext } from './AuthProvider'
 import PrivateRoute from './components/PrivateRoute'
 import PublicRoute from './components/PublicRoute'
-
+import AddItem from './components/AddItem'
 
 const App = () => {
   const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext)
@@ -29,7 +29,7 @@ const App = () => {
                   <Sidebar />
                 </div>
               )}
-              <div className={isLoggedIn ? 'col-9' : 'col-12'}>
+              <div className={isLoggedIn ? 'col-9' : 'col-12'} style={{ width: isLoggedIn ? '70%' : '100%' }}>
                 <br />
                 <Routes>
                   <Route path='/' element={<PrivateRoute><Home /></PrivateRoute>} />
@@ -39,6 +39,7 @@ const App = () => {
                   <Route path='/login' element={<PublicRoute><LoginPage /></PublicRoute>} />
                   <Route path='/signup' element={<PublicRoute><Signup /></PublicRoute>} />
                   <Route path='/dashboard' element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+                  <Route path='/add-item' element={<PrivateRoute><AddItem /></PrivateRoute>} />
                 </Routes>
               </div>
             </div>

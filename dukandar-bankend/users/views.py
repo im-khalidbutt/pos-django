@@ -8,7 +8,7 @@ from users.models import User
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework_simplejwt.views import TokenObtainPairView
-
+from shops.models import ShopUser
 
 class Home(APIView):
     authentication_classes = [JWTAuthentication]
@@ -31,6 +31,13 @@ class CurrentUserView(APIView):
 
     def get(self, request):
         user = request.user
+        shop_user = None
+        if user.is_shop_owner:
+            try:
+                shop_user = ShopUser.objects.get(user=user)
+                shop_user = shop_user.shop.id
+            except ShopUser.DoesNotExist:
+                shop_user = False
         return Response({
             'id': user.id,
             'username': user.username,
@@ -39,6 +46,7 @@ class CurrentUserView(APIView):
             'last_name': user.last_name,
             'is_superuser': user.is_superuser,
             'is_shop_owner': user.is_shop_owner,
+            'shop_id': shop_user
             # 'user_type': getattr(user, 'user_type', None),  # if you have this field
         })
 
@@ -65,6 +73,13 @@ class CustomTokenRefreshView(TokenRefreshView):
         # Decode the refresh token to get the user
         refresh = RefreshToken(request.data.get('refresh'))
         user = User.objects.get(id=refresh['user_id'])
+        shop_user = None
+        if user.is_shop_owner:
+            try:
+                shop_user = ShopUser.objects.get(user=user)
+                shop_user = shop_user.shop.id
+            except ShopUser.DoesNotExist:
+                shop_user = False
 
         return Response({
             "access": access,
@@ -76,7 +91,7 @@ class CustomTokenRefreshView(TokenRefreshView):
                 "first_name": user.first_name,
                 "last_name": user.last_name,
                 'is_shop_owner': user.is_shop_owner,
-
+                'shop_id': shop_user
                 # add other fields if needed
             }
         })

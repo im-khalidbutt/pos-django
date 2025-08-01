@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Shop
+from .models import Shop, Company
 from django.core.validators import validate_email
 
 class ShopSerializer(serializers.ModelSerializer):
@@ -35,3 +35,10 @@ class ShopListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shop
         fields = '__all__'
+        
+
+class CompanyListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = ['name', 'uuid']
+        # read_only_fields = ['id', 'slug', 'created_at', 'updated_at', 'is_deleted']

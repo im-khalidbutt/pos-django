@@ -3,11 +3,11 @@ from django.shortcuts import render, get_object_or_404
 
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
-from shops.models import Shop, ShopUser
-# from rest_framework.permissions import IsAuthenticated
+from shops.models import Shop, ShopUser, Company
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from shops.serializers import ShopListSerializer, ShopSerializer
+from shops.serializers import ShopListSerializer, ShopSerializer, CompanyListSerializer
 
 
 class ShopListView(APIView):
@@ -119,3 +119,13 @@ class ShopActivateView(APIView):
             status=status.HTTP_200_OK
         )
         
+class CompanyViewSet(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        query_param =  request.GET.get('search', '')
+        if query_param:
+            querySet = Company.objects.filter(name__icontains=query_param, is_active=True, is_archived=False ).order_by("-created_at")
+        else:
+            querySet = Company.objects.filter(is_active=True, is_archived=False ).order_by("-created_at")
+        response_data = CompanyListSerializer(querySet, many=True).data
+        return Response(response_data, status=status.HTTP_200_OK)
